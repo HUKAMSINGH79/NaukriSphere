@@ -20,11 +20,11 @@ public class DBConnect {
         }
 
         // Railway environment variables
-        String host = System.getenv("MYSQL_HOST");
-        String port = System.getenv("MYSQL_PORT");
-        String db   = System.getenv("MYSQL_DATABASE");
-        String user = System.getenv("MYSQL_USER");
-        String pass = System.getenv("MYSQL_PASSWORD");
+        String host = System.getenv("MYSQLHOST");
+        String port = System.getenv("MYSQLPORT");
+        String db   = System.getenv("MYSQLDATABASE");
+        String user = System.getenv("MYSQLUSER");
+        String pass = System.getenv("MYSQLPASSWORD");
 
         if (host != null && port != null) {
             // ✅ Production / Railway
