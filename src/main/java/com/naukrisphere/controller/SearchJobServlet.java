@@ -1,8 +1,10 @@
 package com.naukrisphere.controller;
 
-import com.naukrisphere.model.Job;
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +13,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.naukrisphere.model.Job;
 
 public class SearchJobServlet extends HttpServlet {
 

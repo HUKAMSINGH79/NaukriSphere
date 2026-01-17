@@ -1,17 +1,16 @@
 package com.naukrisphere.controller;
 
 import com.naukrisphere.model.Resume;
-
+import javax.servlet.http.*;
+import javax.servlet.ServletException;
+import com.lowagie.text.pdf.PdfWriter;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Font;
 import com.lowagie.text.PageSize;
-import com.lowagie.text.pdf.PdfWriter;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.*;
 import java.io.IOException;
+import com.lowagie.text.PageSize;
 import java.sql.*;
 
 public class ResumePdfServlet extends HttpServlet {

@@ -2,6 +2,7 @@ package com.naukrisphere.apicall;
 
 import com.naukrisphere.model.Job;
 import com.google.gson.*; // Add Gson library
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
