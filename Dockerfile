@@ -1,7 +1,12 @@
-FROM tomcat:9.0-jdk17
+FROM eclipse-temurin:17-jre
 
-COPY naukari-sphere-portal-app.war /usr/local/tomcat/webapps/ROOT.war
+WORKDIR /app
+
+COPY webapp-runner.jar webapp-runner.jar
+COPY naukari-sphere-portal-app.war app.war
 
 EXPOSE 8080
 
-CMD ["catalina.sh", "run"]
+CMD java -jar webapp-runner.jar \
+    --port $PORT \
+    app.war
