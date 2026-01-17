@@ -8,6 +8,7 @@ import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
@@ -30,17 +31,30 @@ public class JobAlertScheduler implements Job {
     }
 
     public static void startScheduler() throws Exception {
+
         Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
-        scheduler.start();
 
-        JobDetail job = JobBuilder.newJob(JobAlertScheduler.class)
-                .withIdentity("jobAlert", "group1")
-                .build();
+        if (!scheduler.isStarted()) {
+            scheduler.start();
+        }
 
-        Trigger trigger = TriggerBuilder.newTrigger()
-                .withSchedule(CronScheduleBuilder.cronSchedule("0/30 * * * * ?"))
-                .build();
-        scheduler.scheduleJob(job, trigger);
+        JobKey jobKey = new JobKey("jobAlert", "group1");
+
+        if (!scheduler.checkExists(jobKey)) {
+
+            JobDetail job = JobBuilder.newJob(JobAlertScheduler.class)
+                    .withIdentity(jobKey)
+                    .build();
+
+            Trigger trigger = TriggerBuilder.newTrigger()
+                    .withIdentity("jobAlertTrigger", "group1")
+                    .withSchedule(
+                        CronScheduleBuilder.cronSchedule("0 0 9 * * ?")
+                    )
+                    .build();
+
+            scheduler.scheduleJob(job, trigger);
+        }
     }
 }
 
