@@ -14,12 +14,13 @@ public class DBConnect {
 
     static {
         try {
+            // ✅ Correct driver for MySQL 8+
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("MySQL Driver not found", e);
         }
 
-        // Railway environment variables
+        // ✅ Railway environment variables
         String host = System.getenv("MYSQLHOST");
         String port = System.getenv("MYSQLPORT");
         String db   = System.getenv("MYSQLDATABASE");
@@ -27,14 +28,14 @@ public class DBConnect {
         String pass = System.getenv("MYSQLPASSWORD");
 
         if (host != null && !host.isEmpty()) {
-            // ✅ Railway / Production
+            // Railway / Production
             DB_HOST = host;
             DB_PORT = (port != null && !port.isEmpty()) ? port : "3306";
             DB_NAME = db;
             DB_USER = user;
             DB_PASS = pass;
         } else {
-            // ✅ Local
+            // Local fallback
             DB_HOST = "localhost";
             DB_PORT = "3306";
             DB_NAME = "naukri_sphere_db";
@@ -42,19 +43,27 @@ public class DBConnect {
             DB_PASS = "root";
         }
 
-        // Debug
+        // ✅ Debugging
         System.out.println("DB HOST = " + DB_HOST);
         System.out.println("DB PORT = " + DB_PORT);
         System.out.println("DB NAME = " + DB_NAME);
+        System.out.println("DB USER = " + DB_USER);
     }
 
     public static Connection getConnection() throws SQLException {
-
         String url = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME
                 + "?useSSL=false"
                 + "&allowPublicKeyRetrieval=true"
                 + "&serverTimezone=UTC";
 
-        return DriverManager.getConnection(url, DB_USER, DB_PASS);
+        try {
+            Connection conn = DriverManager.getConnection(url, DB_USER, DB_PASS);
+            System.out.println("✅ DB Connected Successfully!");
+            return conn;
+        } catch (SQLException e) {
+            System.err.println("❌ DB Connection Failed!");
+            e.printStackTrace();
+            throw e;
+        }
     }
 }
