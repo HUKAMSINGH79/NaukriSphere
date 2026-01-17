@@ -1,6 +1,6 @@
 FROM tomcat:9.0-jdk17
 
-COPY naukri-sphere-portal-app.war /usr/local/tomcat/webapps/ROOT.war
+COPY naukari-sphere-portal-app.war /usr/local/tomcat/webapps/ROOT.war
 
 EXPOSE 8080
 
