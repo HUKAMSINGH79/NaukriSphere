@@ -6,46 +6,48 @@ import java.sql.SQLException;
 
 public class DBConnect {
 
-	private static final String DB_HOST;
-	private static final String DB_PORT;
-	private static final String DB_NAME;
-	private static final String DB_USER;
-	private static final String DB_PASS;
+    private static String DB_HOST;
+    private static String DB_PORT;
+    private static String DB_NAME;
+    private static String DB_USER;
+    private static String DB_PASS;
 
-	static {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		} catch (Exception e) {
-			throw new RuntimeException("MySQL Driver not found", e);
-		}
+    static {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("MySQL Driver not found", e);
+        }
 
-		String railwayHost = System.getenv("MYSQLHOST");
-		String railwayPort = System.getenv("MYSQLPORT");
-		String railwayDb = System.getenv("MYSQLDATABASE");
-		String railwayUser = System.getenv("MYSQLUSER");
-		String railwayPass = System.getenv("MYSQLPASSWORD");
+        // Railway ENV variables (production)
+        String host = System.getenv("MYSQL_HOST");
+        String port = System.getenv("MYSQL_PORT");
+        String db   = System.getenv("MYSQL_DATABASE");
+        String user = System.getenv("MYSQL_USER");
+        String pass = System.getenv("MYSQL_PASSWORD");
 
-		if (railwayHost != null) {
-			// ✅ Railway (Production)
-			DB_HOST = railwayHost;
-			DB_PORT = railwayPort;
-			DB_NAME = railwayDb;
-			DB_USER = railwayUser;
-			DB_PASS = railwayPass;
-		} else {
-			// ✅ Local
-			DB_HOST = "localhost";
-			DB_PORT = "3306";
-			DB_NAME = "naukri_sphere_db";
-			DB_USER = "root";
-			DB_PASS = "root";
-		}
-	}
+        if (host != null && port != null) {
+            // ✅ Railway
+            DB_HOST = host;
+            DB_PORT = port;
+            DB_NAME = db;
+            DB_USER = user;
+            DB_PASS = pass;
+        } else {
+            // ✅ Local
+            DB_HOST = "localhost";
+            DB_PORT = "3306";
+            DB_NAME = "naukri_sphere_db";
+            DB_USER = "root";
+            DB_PASS = "root";
+        }
+    }
 
-	public static Connection getConnection() throws SQLException {
-		String url = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME
-				+ "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+    public static Connection getConnection() throws SQLException {
+        String url =
+            "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME +
+            "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
 
-		return DriverManager.getConnection(url, DB_USER, DB_PASS);
-	}
+        return DriverManager.getConnection(url, DB_USER, DB_PASS);
+    }
 }
