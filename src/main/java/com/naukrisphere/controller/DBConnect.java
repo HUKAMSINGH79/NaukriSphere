@@ -26,10 +26,10 @@ public class DBConnect {
         String user = System.getenv("MYSQLUSER");
         String pass = System.getenv("MYSQLPASSWORD");
 
-        if (host != null && port != null) {
-            // ✅ Production / Railway
+        if (host != null && !host.isEmpty()) {
+            // ✅ Railway / Production
             DB_HOST = host;
-            DB_PORT = port;
+            DB_PORT = (port != null && !port.isEmpty()) ? port : "3306";
             DB_NAME = db;
             DB_USER = user;
             DB_PASS = pass;
@@ -42,15 +42,19 @@ public class DBConnect {
             DB_PASS = "root";
         }
 
-        // Debug lines
+        // Debug
         System.out.println("DB HOST = " + DB_HOST);
         System.out.println("DB PORT = " + DB_PORT);
         System.out.println("DB NAME = " + DB_NAME);
     }
 
     public static Connection getConnection() throws SQLException {
-        String url = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME +
-                     "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+
+        String url = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME
+                + "?useSSL=false"
+                + "&allowPublicKeyRetrieval=true"
+                + "&serverTimezone=UTC";
+
         return DriverManager.getConnection(url, DB_USER, DB_PASS);
     }
 }
