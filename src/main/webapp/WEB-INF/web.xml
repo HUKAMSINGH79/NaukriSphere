@@ -105,6 +105,17 @@
 		<servlet-class>com.naukrisphere.controller.UserLogoutServlet</servlet-class>
 	</servlet>
 
+
+    <servlet>
+		<servlet-name>DBConnectionTestServlet</servlet-name>
+		<servlet-class>com.naukrisphere.controller.DBConnectionTestServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>DBConnectionTestServlet</servlet-name>
+		<url-pattern>/DBConnectionTestServlet</url-pattern>
+	</servlet-mapping>
+	
 	<servlet-mapping>
 		<servlet-name>UserLogoutServlet</servlet-name>
 		<url-pattern>/UserLogoutServlet</url-pattern>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+	<display-name>Archetype Created Web Application</display-name>
+
+	<servlet>
+		<servlet-name>RegistrationServlet</servlet-name>
+		<servlet-class>main.java.com.naukrisphere.controller.RegistrationServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>LoginServlet</servlet-name>
+		<servlet-class>main.java.com.naukrisphere.controller.LoginServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>FeaturedJobsServlet</servlet-name>
+		<servlet-class>FeaturedJobsServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>JobServlet</servlet-name>
+		<servlet-class>main.java.com.naukrisphere.controller.JobServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>RegistrationServlet</servlet-name>
+		<url-pattern>/RegistrationServlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>LoginServlet</servlet-name>
+		<url-pattern>/LoginServlet</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet-mapping>
+		<servlet-name>FeaturedJobsServlet</servlet-name>
+		<url-pattern>/featured-jobs</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet-mapping>
+		<servlet-name>JobServlet</servlet-name>
+		<url-pattern>/JobServlet</url-pattern>
+	</servlet-mapping>
+
+<welcome-file-list>
+        <welcome-file>Home.jsp</welcome-file>
+    </welcome-file-list>
+
+</web-app>
+
