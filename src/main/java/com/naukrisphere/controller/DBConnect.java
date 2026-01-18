@@ -6,8 +6,10 @@ import java.sql.DriverManager;
 public class DBConnect {
 
     public static Connection getConnection() {
-
+        Connection con = null;
         try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
             String host = System.getenv("MYSQLHOST");
             String port = System.getenv("MYSQLPORT");
             String db   = System.getenv("MYSQLDATABASE");
@@ -17,13 +19,12 @@ public class DBConnect {
             String url = "jdbc:mysql://" + host + ":" + port + "/" + db
                     + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
 
-            Class.forName("com.mysql.cj.jdbc.Driver");
-
-            return DriverManager.getConnection(url, user, pass);
+            con = DriverManager.getConnection(url, user, pass);
+            System.out.println("DB Connected Successfully!");
 
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("DB Connection Failed");
         }
+        return con;
     }
 }
