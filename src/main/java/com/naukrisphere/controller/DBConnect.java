@@ -15,12 +15,12 @@ public class DBConnect {
 
     static {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL driver load
+            Class.forName("com.mysql.cj.jdbc.Driver"); // Load MySQL driver
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("MySQL Driver not found", e);
         }
 
-        // Check environment variables (Aiven / Railway)
+        // Check environment variables (Aiven / Production)
         String host = System.getenv("MYSQLHOST");
         String port = System.getenv("MYSQLPORT");
         String db   = System.getenv("MYSQLDATABASE");
@@ -28,7 +28,7 @@ public class DBConnect {
         String pass = System.getenv("MYSQLPASSWORD");
 
         if (host != null && !host.isEmpty()) {
-            // ✅ Production / Aiven
+            // ✅ Aiven / Production
             DB_HOST = host;
             DB_PORT = (port != null && !port.isEmpty()) ? port : "3306";
             DB_NAME = db;
@@ -39,22 +39,23 @@ public class DBConnect {
             // ✅ Local fallback
             DB_HOST = "localhost";
             DB_PORT = "3306";
-            DB_NAME = "naukri_sphere_db"; // local database
-            DB_USER = "root";             // local username
-            DB_PASS = "root";             // local password
+            DB_NAME = "naukri_sphere_db";
+            DB_USER = "root";
+            DB_PASS = "root";
             USE_AIVEN = false;
         }
 
         // Optional debug info
-        System.out.println("USE_AIVEN = " + USE_AIVEN);
-        System.out.println("DB HOST = " + DB_HOST);
-        System.out.println("DB PORT = " + DB_PORT);
-        System.out.println("DB NAME = " + DB_NAME);
+        System.out.println("DB Mode: " + (USE_AIVEN ? "Aiven / Production" : "Local"));
+        System.out.println("DB Host: " + DB_HOST);
+        System.out.println("DB Port: " + DB_PORT);
+        System.out.println("DB Name: " + DB_NAME);
     }
 
-    // Method to get database connection
+    // Get database connection
     public static Connection getConnection() throws SQLException {
         String url;
+
         if (USE_AIVEN) {
             // Aiven requires SSL
             url = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME +
@@ -66,5 +67,18 @@ public class DBConnect {
         }
 
         return DriverManager.getConnection(url, DB_USER, DB_PASS);
+    }
+
+    // Getter methods
+    public static String getDbHost() {
+        return DB_HOST;
+    }
+
+    public static String getDbName() {
+        return DB_NAME;
+    }
+
+    public static boolean isUseAiven() {
+        return USE_AIVEN;
     }
 }
