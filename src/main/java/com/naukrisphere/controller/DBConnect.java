@@ -10,34 +10,27 @@ public class DBConnect {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            // 1. Get environment variables from Railway
+            // Fetching Railway Environment Variables
             String host = System.getenv("MYSQLHOST");
             String port = System.getenv("MYSQLPORT");
             String db   = System.getenv("MYSQLDATABASE");
             String user = System.getenv("MYSQLUSER");
             String pass = System.getenv("MYSQLPASSWORD");
 
-            String url;
-
-            // 2. Check if we are running on Railway or locally
-            if (host != null) {
-                // Production: Use Railway variables
-                url = "jdbc:mysql://" + host + ":" + port + "/" + db
-                        + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-                con = DriverManager.getConnection(url, user, pass);
-            } else {
-                // Local Development: Fallback to your local MySQL settings
-                url = "jdbc:mysql://localhost:3306/naukri_sphere_db"
-                        + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-                con = DriverManager.getConnection(url, "root", "root");
+            // Validation check
+            if (host == null || port == null) {
+                System.err.println("ERROR: Database environment variables are NOT SET in Railway!");
+                return null;
             }
 
-            if (con != null) {
-                System.out.println("DB Connected Successfully!");
-            }
+            String url = "jdbc:mysql://" + host + ":" + port + "/" + db
+                    + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+
+            con = DriverManager.getConnection(url, user, pass);
+            System.out.println("SUCCESS: Connected to Railway MySQL!");
 
         } catch (Exception e) {
-            System.err.println("Database Connection Failed! Check if MySQL service is running.");
+            System.err.println("FAILURE: Could not connect to database.");
             e.printStackTrace();
         }
         return con;
